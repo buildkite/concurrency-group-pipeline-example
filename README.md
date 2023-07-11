@@ -1,10 +1,12 @@
 # Buildkite Concurrency Gates with Parallelism Pipeline Example
 
-This is an example configuration for Buildkite that demonstrates the use of concurrency groups and gates to control the execution flow of your pipeline steps. It showcases the concept of parallelism and how concurrency gates can be used to manage dependencies between steps.
+[![Add to Buildkite](https://buildkite.com/button.svg)](https://buildkite.com/new)
+
+This repository is an example configuration for Buildkite that demonstrates the use of concurrency groups and gates to control the execution flow of your pipeline steps. It showcases the concept of parallelism and how concurrency gates can be used to manage dependencies between steps.
 
 ## How does it work?
 
-The example demonstrates the following execution flow:
+This example pipeline demonstrates the following execution flow:
 
 1. The pipeline starts with the **Running concurrency gate example** step, which serves as an initial message.
 
@@ -31,19 +33,3 @@ The pipeline consists of the following steps:
 5. **Integration Tests**: This step represents running integration tests. It depends on the completion of both the **Deploy to Staging** and **Deploy to Production** steps. The step is associated with a concurrency group named **"integration-tests"** and has a parallelism value of 3, allowing up to 3 parallel integration test runs. It has a `depends_on: ["wait-end-deploy-staging", "wait-end-deploy-production"]` gate for the steps **Deploy to Staging** and **Deploy to Production** to ensure that the integration tests run only after both staging and production deployments have completed.
 
 6. **Approve Deployment**: This step opens the gate for approving the deployment. It depends on the completion of the **Integration Tests** step. This step is part of the **"approval"** concurrency group. It has a `depends_on: ["wait-end-integration-tests"]` gate for the step **Integration Tests** to ensure that the deployment approval happens only after the integration tests have completed successfully.
-
-## Running the Example
-
-TODO: Update this section to be at the top and include an "Add to Buildkite" button.
-
-To run the example:
-
-1. Set up Buildkite with your pipeline configuration.
-
-2. Add the provided steps from the example configuration to your pipeline definition file (`pipeline.yml`).
-
-3. Commit and push the changes to trigger the pipeline execution.
-
-4. Observe how the parallelism settings and gate dependencies control the execution flow of the steps.
-
-Make sure to adjust the commands in each step according to your actual test, deployment, and approval processes.
