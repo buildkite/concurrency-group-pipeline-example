@@ -14,7 +14,7 @@ This example pipeline demonstrates the following execution flow:
 
 3. Once the **Tests** step completes, the **Deploy to Staging** step opens the gate for deploying to the staging environment. The **Deploy to Production** gate also opens simultaneously. Both gates remain open until their respective steps complete.
 
-4. The **Integration Tests** step waits for both the **Deploy to Staging** and **Deploy to Production** steps to finish before running. It allows up to 3 parallel integration test runs. This gate opens once both the **Deploy to Staging** and **Deploy to Production** steps complete and closes upon the completion of the **Integration Tests** step. After this step, the **Trigger Production Pipeline** step is executed.
+4. The **Integration Tests** step waits for both the **Deploy to Staging** and **Deploy to Production** steps to finish before running. It allows up to 3 parallel integration test runs. This gate opens once both the **Deploy to Staging** and **Deploy to Production** steps complete and closes upon the completion of the **Integration Tests** step.
 
 5. Finally, the **Approve Deployment** step opens the gate for approving the deployment. It waits for the completion of the **Integration Tests** step before running. This gate remains open until the **Approve Deployment** step is completed.
 
