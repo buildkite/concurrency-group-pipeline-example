@@ -26,7 +26,7 @@ The pipeline consists of the following steps:
 
 2. **Tests**: This step represents running tests. It utilizes concurrency and parallelism to control the number of parallel test executions. The step is associated with a concurrency group named **"tests"** and has a parallelism value of 5. This means that up to 5 parallel test runs can occur at the same time. It has no explicit dependency on other steps.
 
-3. **Deploy to Staging**: This step opens the gate for deploying to the staging environment. It depends on the completion of the "Tests" step and waits for it to finish before proceeding. This step is part of the **"deploy-staging"** concurrency group. It has a `depends_on: ["wait-end-tests"]` gate for the step **Tests** to ensure that the deployment to staging happens only after the tests have completed.
+3. **Deploy to Staging**: This step opens the gate for deploying to the staging environment. It depends on the completion of the **Tests** step and waits for it to finish before proceeding. This step is part of the **"deploy-staging"** concurrency group. It has a `depends_on: ["wait-end-tests"]` gate for the step **Tests** to ensure that the deployment to staging happens only after the tests have completed.
 
 4. **Deploy to Production**: Similar to the **Deploy to Staging** step, this step opens the gate for deploying to the production environment. It also depends on the completion of the **Tests** step. This step is part of the **"deploy-production"** concurrency group. It has a `depends_on: ["wait-end-tests"]` gate for the step **Tests** to ensure that the deployment to production happens only after the tests have completed.
 
