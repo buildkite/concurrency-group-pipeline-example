@@ -8,6 +8,8 @@ This repository is an example configuration for Buildkite that demonstrates the 
 
 This example pipeline demonstrates the following execution flow:
 
+![Visual Description](./images/image.png)
+
 1. The pipeline starts with the **Running concurrency gate example** step, which serves as an initial message.
 
 2. The **Tests** step runs in parallel with a maximum of 5 parallel test executions. This gate opens at the start of the pipeline and closes upon the completion of the **Tests** step.
