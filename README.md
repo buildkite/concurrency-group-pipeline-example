@@ -1,11 +1,11 @@
 # Buildkite Concurrency Gates with Parallelism Pipeline Example
 
+[![Build status](https://badge.buildkite.com/aab023f2f33ab06766ed6236bc40caf0df1d9448e4f590d0ee.svg?branch=main)](https://buildkite.com/buildkite/concurrency-group-pipeline-example)
 [![Add to Buildkite](https://buildkite.com/button.svg)](https://buildkite.com/new)
 
 This repository is an example configuration for Buildkite that demonstrates the use of concurrency groups and gates to control the execution flow of your pipeline steps. It showcases the concept of parallelism and how concurrency gates can be used to manage dependencies between steps.
 
 ## How does it work?
-
 This example pipeline demonstrates the following execution flow:
 
 ![Visual Description](./images/image.png)
@@ -19,6 +19,14 @@ This example pipeline demonstrates the following execution flow:
 4. The **Integration Tests** step waits for both the **Deploy to Staging** and **Deploy to Production** steps to finish before running. It allows up to 3 parallel integration test runs. This gate opens once both the **Deploy to Staging** and **Deploy to Production** steps complete and closes upon the completion of the **Integration Tests** step.
 
 5. Finally, the **Approve Deployment** step opens the gate for approving the deployment. It waits for the completion of the **Integration Tests** step before running. This gate remains open until the **Approve Deployment** step is completed.
+
+> 🔄 **Parallelism** means running things at the same time.
+>
+> ⛔ **Concurrency groups** *limit* how many things can run at once — even across separate builds.
+>
+> You can think of concurrency as a traffic light — it controls how many cars go through, no matter how many lanes are open.
+
+For more detail, see the [Buildkite docs on controlling concurrency](https://buildkite.com/docs/pipelines/configure/workflows/controlling-concurrency).
 
 ## Pipeline Steps Overview
 
@@ -35,3 +43,14 @@ The pipeline consists of the following steps:
 5. **Integration Tests**: This step represents running integration tests. It depends on the completion of both the **Deploy to Staging** and **Deploy to Production** steps. The step is associated with a concurrency group named **"integration-tests"** and has a parallelism value of 3, allowing up to 3 parallel integration test runs. It has a `depends_on: ["wait-end-deploy-staging", "wait-end-deploy-production"]` gate for the steps **Deploy to Staging** and **Deploy to Production** to ensure that the integration tests run only after both staging and production deployments have completed.
 
 6. **Approve Deployment**: This step opens the gate for approving the deployment. It depends on the completion of the **Integration Tests** step. This step is part of the **"approval"** concurrency group. It has a `depends_on: ["wait-end-integration-tests"]` gate for the step **Integration Tests** to ensure that the deployment approval happens only after the integration tests have completed successfully.
+
+## 🧠 Advanced Usage Notes
+
+This example uses `depends_on` and concurrency groups together to model gated workflows.
+For more advanced setups — such as gating steps across complex conditions or multiple fan-in/fan-out branches — you can adapt these patterns with `depends_on` and `concurrency` to simulate advanced step control.
+
+We recommend:
+- Being explicit with `depends_on` to control flow
+- Keeping concurrency group names consistent and descriptive
+
+Want help modeling a complex pipeline? [Reach out to support](https://buildkite.com/support) — we love this stuff.
