@@ -7,6 +7,7 @@ This repository is an example configuration for Buildkite that demonstrates the 
 👉 **Live Pipeline:** [buildkite.com/buildkite/concurrency-group-pipeline-example](https://buildkite.com/buildkite/concurrency-group-pipeline-example)
 
 See the full [Getting Started Guide](https://buildkite.com/docs/guides/getting-started) for step-by-step instructions on how to get this running, or [Add to Buildkite](https://buildkite.com/new) to try it yourself.
+
 [![Add to Buildkite](https://buildkite.com/button.svg)](https://buildkite.com/new)
 
 ## How does it work?
