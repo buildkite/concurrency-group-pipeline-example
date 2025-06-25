@@ -1,9 +1,13 @@
 # Buildkite Concurrency Gates with Parallelism Pipeline Example
 
 [![Build status](https://badge.buildkite.com/aab023f2f33ab06766ed6236bc40caf0df1d9448e4f590d0ee.svg?branch=main)](https://buildkite.com/buildkite/concurrency-group-pipeline-example)
-[![Add to Buildkite](https://buildkite.com/button.svg)](https://buildkite.com/new)
 
 This repository is an example configuration for Buildkite that demonstrates the use of concurrency groups and gates to control the execution flow of your pipeline steps. It showcases the concept of parallelism and how concurrency gates can be used to manage dependencies between steps.
+
+👉 **Live Pipeline:** [buildkite.com/buildkite/concurrency-group-pipeline-example](https://buildkite.com/buildkite/concurrency-group-pipeline-example)
+
+See the full [Getting Started Guide](https://buildkite.com/docs/guides/getting-started) for step-by-step instructions on how to get this running, or [Add to Buildkite](https://buildkite.com/new) to try it yourself.
+[![Add to Buildkite](https://buildkite.com/button.svg)](https://buildkite.com/new)
 
 ## How does it work?
 This example pipeline demonstrates the following execution flow:
@@ -20,11 +24,15 @@ This example pipeline demonstrates the following execution flow:
 
 5. Finally, the **Approve Deployment** step opens the gate for approving the deployment. It waits for the completion of the **Integration Tests** step before running. This gate remains open until the **Approve Deployment** step is completed.
 
+Here's how it looks on the Buildkite build page. See the [live pipeline](https://buildkite.com/buildkite/concurrency-group-pipeline-example) to interact with it!
+
+![Visual Description on Build Page](./images/screenshot.png)
+
 > 🔄 **Parallelism** means running things at the same time.
 >
-> ⛔ **Concurrency groups** *limit* how many things can run at once — even across separate builds.
+> ⛔ **Concurrency groups** *limit* how many things can run at once - even across separate builds.
 >
-> You can think of concurrency as a traffic light — it controls how many cars go through, no matter how many lanes are open.
+> You can think of concurrency as a traffic light - it controls how many cars go through, no matter how many lanes are open.
 
 For more detail, see the [Buildkite docs on controlling concurrency](https://buildkite.com/docs/pipelines/configure/workflows/controlling-concurrency).
 
