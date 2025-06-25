@@ -10,6 +10,10 @@ See the full [Getting Started Guide](https://buildkite.com/docs/guides/getting-s
 
 [![Add to Buildkite](https://buildkite.com/button.svg)](https://buildkite.com/new)
 
+<a href="https://buildkite.com/buildkite/concurrency-group-pipeline-example/builds/latest?branch=main">
+  <img width="2400" alt="Screenshot of concurrency group example pipeline build page" src=".buildkite/screenshot.png" />
+</a>
+
 ## How does it work?
 This example pipeline demonstrates the following execution flow:
 
@@ -25,9 +29,7 @@ This example pipeline demonstrates the following execution flow:
 
 5. Finally, the **Approve Deployment** step opens the gate for approving the deployment. It waits for the completion of the **Integration Tests** step before running. This gate remains open until the **Approve Deployment** step is completed.
 
-Here's how it looks on the Buildkite build page. See the [live pipeline](https://buildkite.com/buildkite/concurrency-group-pipeline-example) to interact with it!
 
-![Visual Description on Build Page](./images/screenshot.png)
 
 > 🔄 **Parallelism** means running things at the same time.
 >
