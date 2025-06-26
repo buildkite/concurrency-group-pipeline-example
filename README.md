@@ -65,3 +65,7 @@ We recommend:
 - Keeping concurrency group names consistent and descriptive
 
 Want help modeling a complex pipeline? [Reach out to support](https://buildkite.com/support) — we love this stuff.
+
+## License
+
+See [LICENSE.md](LICENSE.md) (MIT)
