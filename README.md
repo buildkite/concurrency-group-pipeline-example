@@ -1,6 +1,6 @@
 # Buildkite Concurrency Gates with Parallelism Pipeline Example
 
-[![Build status](https://badge.buildkite.com/aab023f2f33ab06766ed6236bc40caf0df1d9448e4f590d0ee.svg?branch=main)](https://buildkite.com/buildkite/concurrency-group-pipeline-example)
+[![Build status](https://badge.buildkite.com/a947f64837044296a1ea4394819872e0544a4647a3400e6634.svg)](https://buildkite.com/buildkite/concurrency-group-pipeline-example)
 
 This repository is an example configuration for Buildkite that demonstrates the use of concurrency groups and gates to control the execution flow of your pipeline steps. It showcases the concept of parallelism and how concurrency gates can be used to manage dependencies between steps.
 
