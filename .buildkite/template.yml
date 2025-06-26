@@ -1,26 +1,5 @@
-# template.yml
-# Use this as a starting point for your own Buildkite pipeline
-
-name: "Concurrency Group Example"
-description: "A Buildkite pipeline demonstrating concurrency groups and gates to control job flow."
-
+name: "Concurrency Group Pipeline Example"
+description: "An example repository you can use as a test project with Buildkite"
 steps:
-  - label: ":large_green_square: OPEN GATE: Tests"
-    key: "start-tests"
-    concurrency_group: "tests"
-    command: echo "Opening Test gate"
-
-  - wait
-
-  - label: "Tests"
-    key: "tests"
-    concurrency_group: "tests"
-    parallelism: 5
-    depends_on: ["start-tests"]
-    command: echo "run-tests.sh"
-
-  - label: ":large_red_square: CLOSE GATE: Tests"
-    key: "end-tests"
-    concurrency_group: "tests"
-    depends_on: ["tests"]
-    command: echo "Closed the Test gate"
+  - command: "buildkite-agent pipeline upload"
+    label: ":pipeline:"
