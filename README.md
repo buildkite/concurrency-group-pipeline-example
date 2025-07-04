@@ -3,12 +3,10 @@
 [![Build status](https://badge.buildkite.com/a947f64837044296a1ea4394819872e0544a4647a3400e6634.svg?branch=main)](https://buildkite.com/buildkite/concurrency-group-pipeline-example)
 [![Add to Buildkite](https://img.shields.io/badge/Add%20to%20Buildkite-14CC80)](https://buildkite.com/new)
 
-This repository is an example of using [Buildkite](https://buildkite.com/) concurrency groups and gates to control the flow of a pipeline.
-It shows how to use parallelism, step dependencies, and concurrency limits to model gated workflows.
+This repository demonstrates how to use [Buildkite](https://buildkite.com/) concurrency groups and gates to control the flow of a pipeline.
+It shows how to combine **parallelism**, **step dependencies**, and **concurrency limits** to model gated workflows.
 
-👉 **See this example in action:** [buildkite.com/buildkite/concurrency-group-pipeline-example](https://buildkite.com/buildkite/concurrency-group-pipeline-example)
-
-See the full [Getting Started Guide](https://buildkite.com/docs/guides/getting-started) for step-by-step instructions on how to get this running, or [Add to Buildkite](https://buildkite.com/new) to try it yourself.
+👉 **See this pipeline in action:** [buildkite.com/buildkite/concurrency-group-pipeline-example](https://buildkite.com/buildkite/concurrency-group-pipeline-example/builds/latest)
 
 [![Add to Buildkite](https://buildkite.com/button.svg)](https://buildkite.com/new)
 
@@ -16,10 +14,12 @@ See the full [Getting Started Guide](https://buildkite.com/docs/guides/getting-s
   <img width="2400" alt="Screenshot of concurrency group example pipeline build page" src=".buildkite/screenshot.png" />
 </a>
 
+<!-- docs:start -->
+
 ## How it works
 This example models a simple gated workflow with concurrency limits and parallelism:
 
-![Visual Description](./images/image.png)
+![Visual Description](.buildkite/concurrency-diagram.png)
 
 1. The **Running concurrency gate example** step prints a quick message to start the pipeline.
 2. The **Tests** step runs in parallel (up to 5 at once), controlled by a concurrency gate.
@@ -55,6 +55,8 @@ You can:
 - Create human approval gates at the end of automated flows
 
 Want help modeling a complex pipeline? [Reach out to support](https://buildkite.com/support) — we love this stuff.
+
+<!-- docs:end -->
 
 ## License
 

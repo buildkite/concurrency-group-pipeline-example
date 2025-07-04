@@ -1,5 +1,8 @@
 name: "Concurrency Group Pipeline Example"
-description: "An example repository you can use as a test project with Buildkite"
+description: "An example pipeline that demonstrates how to use concurrency groups, gates, and parallelism to control pipeline execution flow."
+emoji: ":vertical_traffic_light:"
+languages:
+  - "YAML"
 steps:
   - command: "buildkite-agent pipeline upload"
     label: ":pipeline:"
