@@ -60,4 +60,4 @@ Want help modeling a complex pipeline? [Reach out to support](https://buildkite.
 
 ## License
 
-See [LICENSE.md](LICENSE.md) (MIT)
+See [LICENSE](LICENSE) (MIT)
