@@ -6,7 +6,7 @@
 This repository demonstrates how to use [Buildkite](https://buildkite.com/) concurrency groups and gates to control the flow of a pipeline.
 It shows how to combine **parallelism**, **step dependencies**, and **concurrency limits** to model gated workflows.
 
-👉 **See this pipeline in action:** [buildkite.com/buildkite/concurrency-group-pipeline-example](https://buildkite.com/buildkite/concurrency-group-pipeline-example/builds/latest)
+👉 **See this pipeline in action:** [buildkite.com/buildkite/concurrency-group-pipeline-example](https://buildkite.com/buildkite/concurrency-group-pipeline-example/builds/latest?branch=main)
 
 [![Add to Buildkite](https://buildkite.com/button.svg)](https://buildkite.com/new)
 
