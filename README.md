@@ -8,6 +8,8 @@ It shows how to combine **parallelism**, **step dependencies**, and **concurrenc
 
 👉 **See this pipeline in action:** [buildkite.com/buildkite/concurrency-group-pipeline-example](https://buildkite.com/buildkite/concurrency-group-pipeline-example/builds/latest?branch=main)
 
+See the full [Getting Started Guide](https://buildkite.com/docs/guides/getting-started) for step-by-step instructions on how to get this running, or try it yourself:
+
 [![Add to Buildkite](https://buildkite.com/button.svg)](https://buildkite.com/new)
 
 <a href="https://buildkite.com/buildkite/concurrency-group-pipeline-example/builds/latest?branch=main">
