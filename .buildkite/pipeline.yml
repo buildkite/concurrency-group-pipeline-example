@@ -6,30 +6,18 @@ steps:
     key: "tests-group"
     depends_on: ["deploy-example"]
     steps:
-      - label: ":large_green_square: Open `Tests` gate"
-        key: "tests-gate-open"
-        command: echo "Opening Tests gate"
-
       - label: ":lint-roller: Lint"
         key: "lint"
         command: echo "lint.sh"
-        depends_on: ["tests-gate-open"]
 
       - label: ":typescript: Typecheck"
         key: "typecheck"
         command: echo "typecheck.sh"
-        depends_on: ["tests-gate-open"]
 
       - label: ":rspec: Unit Tests"
         key: "tests"
         parallelism: 5
         command: echo "run-tests.sh"
-        depends_on: ["tests-gate-open"]
-
-      - label: ":large_red_square: Close `Tests` gate"
-        key: "tests-gate-close"
-        command: echo "Closing Tests gate"
-        depends_on: ["lint", "typecheck", "tests"]
 
   - group: ":rocket: Deploy to Staging"
     key: "deploy-staging-group"
@@ -127,7 +115,7 @@ steps:
       - label: ":test_tube: Integration Tests"
         key: "integration-tests"
         concurrency_group: "integration-tests"
-        concurrency: 1
+        concurrency: 3
         parallelism: 3
         command: echo "integration-tests.sh"
         depends_on: ["seed-test-data"]
