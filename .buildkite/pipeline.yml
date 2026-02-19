@@ -8,36 +8,26 @@ steps:
     steps:
       - label: ":large_green_square: Open `Tests` gate"
         key: "tests-gate-open"
-        concurrency_group: "tests"
-        concurrency: 1
         command: echo "Opening Tests gate"
 
       - label: ":lint-roller: Lint"
         key: "lint"
-        concurrency_group: "tests"
-        concurrency: 1
         command: echo "lint.sh"
         depends_on: ["tests-gate-open"]
 
       - label: ":typescript: Typecheck"
         key: "typecheck"
-        concurrency_group: "tests"
-        concurrency: 1
         command: echo "typecheck.sh"
         depends_on: ["tests-gate-open"]
 
       - label: ":rspec: Unit Tests"
         key: "tests"
-        concurrency_group: "tests"
-        concurrency: 1
         parallelism: 5
         command: echo "run-tests.sh"
         depends_on: ["tests-gate-open"]
 
       - label: ":large_red_square: Close `Tests` gate"
         key: "tests-gate-close"
-        concurrency_group: "tests"
-        concurrency: 1
         command: echo "Closing Tests gate"
         depends_on: ["lint", "typecheck", "tests"]
 
