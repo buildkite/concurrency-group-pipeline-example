@@ -1,0 +1,164 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="4220" height="950" viewBox="0 0 4220 950" role="img" aria-labelledby="title description">
+  <title id="title">Concurrency gate pipeline flow</title>
+  <desc id="description">Tests run before independent staging and production deployments, followed by integration tests and deployment approval. Each phase is bounded by an open and close concurrency gate.</desc>
+  <defs>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="180%">
+      <feDropShadow dx="10" dy="14" stdDeviation="14" flood-color="#172033" flood-opacity="0.22"/>
+    </filter>
+    <filter id="card-shadow" x="-30%" y="-40%" width="160%" height="200%">
+      <feDropShadow dx="5" dy="8" stdDeviation="8" flood-color="#172033" flood-opacity="0.16"/>
+    </filter>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="9" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M1 1 L10 6 L1 11" fill="none" stroke="#bd2cff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <style>
+      .panel { fill: #f7f8fa; stroke: #173b58; stroke-width: 3; }
+      .panel-header { fill: #bdc9cd; }
+      .panel-rule { stroke: #173b58; stroke-width: 3; }
+      .panel-title { fill: #2b3a3b; font: 700 30px Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; text-anchor: middle; }
+      .card { fill: #ffffff; stroke: #e1e5e8; stroke-width: 2; }
+      .open-card { fill: #ff9ca4; stroke: #f17c87; stroke-width: 2; }
+      .close-card { fill: #16d5ae; stroke: #08b993; stroke-width: 2; }
+      .card-label { fill: #141923; font: 500 27px Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; text-anchor: middle; dominant-baseline: middle; }
+      .small-label { fill: #141923; font: 500 24px Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; text-anchor: middle; dominant-baseline: middle; }
+      .flow { fill: none; stroke: #bd2cff; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; marker-end: url(#arrow); }
+    </style>
+  </defs>
+
+  <g id="tests-panel" filter="url(#shadow)">
+    <rect class="panel" x="260" y="50" width="620" height="850" rx="40"/>
+    <path class="panel-header" d="M260 90 Q260 50 300 50 H840 Q880 50 880 90 V135 H260 Z"/>
+    <line class="panel-rule" x1="260" y1="135" x2="880" y2="135"/>
+    <text class="panel-title" x="570" y="103">Tests concurrency group</text>
+  </g>
+
+  <g id="staging-panel" filter="url(#shadow)">
+    <rect class="panel" x="1130" y="55" width="900" height="350" rx="40"/>
+    <path class="panel-header" d="M1130 95 Q1130 55 1170 55 H1990 Q2030 55 2030 95 V140 H1130 Z"/>
+    <line class="panel-rule" x1="1130" y1="140" x2="2030" y2="140"/>
+    <text class="panel-title" x="1580" y="108">Staging concurrency group</text>
+  </g>
+
+  <g id="production-panel" filter="url(#shadow)">
+    <rect class="panel" x="1130" y="505" width="900" height="350" rx="40"/>
+    <path class="panel-header" d="M1130 545 Q1130 505 1170 505 H1990 Q2030 505 2030 545 V590 H1130 Z"/>
+    <line class="panel-rule" x1="1130" y1="590" x2="2030" y2="590"/>
+    <text class="panel-title" x="1580" y="558">Production concurrency group</text>
+  </g>
+
+  <g id="integration-panel" filter="url(#shadow)">
+    <rect class="panel" x="2280" y="165" width="1000" height="620" rx="40"/>
+    <path class="panel-header" d="M2280 205 Q2280 165 2320 165 H3240 Q3280 165 3280 205 V250 H2280 Z"/>
+    <line class="panel-rule" x1="2280" y1="250" x2="3280" y2="250"/>
+    <text class="panel-title" x="2780" y="218">Integration concurrency group</text>
+  </g>
+
+  <g id="approval-panel" filter="url(#shadow)">
+    <rect class="panel" x="3510" y="285" width="610" height="380" rx="40"/>
+    <path class="panel-header" d="M3510 325 Q3510 285 3550 285 H4080 Q4120 285 4120 325 V370 H3510 Z"/>
+    <line class="panel-rule" x1="3510" y1="370" x2="4120" y2="370"/>
+    <text class="panel-title" x="3815" y="338">Approval concurrency group</text>
+  </g>
+
+  <g id="connectors">
+    <path class="flow" d="M160 475 H185"/>
+
+    <path class="flow" d="M365 475 H405 V195 H440"/>
+    <path class="flow" d="M365 475 H405 V290 H440"/>
+    <path class="flow" d="M365 475 H405 V385 H440"/>
+    <path class="flow" d="M365 475 H440"/>
+    <path class="flow" d="M365 475 H405 V575 H440"/>
+    <path class="flow" d="M365 475 H405 V670 H440"/>
+    <path class="flow" d="M365 475 H405 V765 H440"/>
+    <path class="flow" d="M660 195 H745 V475 H790"/>
+    <path class="flow" d="M660 290 H745 V475 H790"/>
+    <path class="flow" d="M660 385 H745 V475 H790"/>
+    <path class="flow" d="M660 475 H790"/>
+    <path class="flow" d="M660 575 H745 V475 H790"/>
+    <path class="flow" d="M660 670 H745 V475 H790"/>
+    <path class="flow" d="M660 765 H745 V475 H790"/>
+
+    <path class="flow" d="M970 475 H1010 V255 H1040"/>
+    <path class="flow" d="M970 475 H1010 V705 H1040"/>
+    <path class="flow" d="M1220 255 H1260"/>
+    <path class="flow" d="M1420 255 H1460"/>
+    <path class="flow" d="M1620 255 H1660"/>
+    <path class="flow" d="M1900 255 H1940"/>
+    <path class="flow" d="M1220 705 H1260"/>
+    <path class="flow" d="M1420 705 H1460"/>
+    <path class="flow" d="M1620 705 H1660"/>
+    <path class="flow" d="M1900 705 H1940"/>
+
+    <path class="flow" d="M2120 255 H2160 V475 H2190"/>
+    <path class="flow" d="M2120 705 H2160 V475 H2190"/>
+    <path class="flow" d="M2370 475 H2450"/>
+    <path class="flow" d="M2630 475 H2650 V345 H2670"/>
+    <path class="flow" d="M2630 475 H2670"/>
+    <path class="flow" d="M2630 475 H2650 V605 H2670"/>
+    <path class="flow" d="M2850 345 H2900 V475 H2940"/>
+    <path class="flow" d="M2850 475 H2940"/>
+    <path class="flow" d="M2850 605 H2900 V475 H2940"/>
+    <path class="flow" d="M3120 475 H3190"/>
+
+    <path class="flow" d="M3370 475 H3420"/>
+    <path class="flow" d="M3600 475 H3660"/>
+    <path class="flow" d="M3810 475 H3850"/>
+    <path class="flow" d="M3990 475 H4020"/>
+  </g>
+
+  <g id="start-step" filter="url(#card-shadow)">
+    <rect class="card" x="30" y="440" width="130" height="70" rx="20"/>
+    <text class="small-label" x="95" y="475">Start</text>
+  </g>
+
+  <g id="tests-open-gate" filter="url(#card-shadow)">
+    <rect class="open-card" x="185" y="430" width="180" height="90" rx="24"/>
+    <text class="card-label" x="275" y="475">Open gate</text>
+  </g>
+  <g id="tests-work" filter="url(#card-shadow)">
+    <rect class="card" x="440" y="160" width="220" height="70" rx="22"/><text class="card-label" x="550" y="195">Lint</text>
+    <rect class="card" x="440" y="255" width="220" height="70" rx="22"/><text class="card-label" x="550" y="290">Typecheck</text>
+    <rect class="card" x="440" y="350" width="220" height="70" rx="22"/><text class="card-label" x="550" y="385">Unit test 1</text>
+    <rect class="card" x="440" y="440" width="220" height="70" rx="22"/><text class="card-label" x="550" y="475">Unit test 2</text>
+    <rect class="card" x="440" y="540" width="220" height="70" rx="22"/><text class="card-label" x="550" y="575">Unit test 3</text>
+    <rect class="card" x="440" y="635" width="220" height="70" rx="22"/><text class="card-label" x="550" y="670">Unit test 4</text>
+    <rect class="card" x="440" y="730" width="220" height="70" rx="22"/><text class="card-label" x="550" y="765">Unit test 5</text>
+  </g>
+  <g id="tests-close-gate" filter="url(#card-shadow)">
+    <rect class="close-card" x="790" y="430" width="180" height="90" rx="24"/>
+    <text class="card-label" x="880" y="475">Close gate</text>
+  </g>
+
+  <g id="staging-open-gate" filter="url(#card-shadow)"><rect class="open-card" x="1040" y="210" width="180" height="90" rx="24"/><text class="card-label" x="1130" y="255">Open gate</text></g>
+  <g id="staging-work" filter="url(#card-shadow)">
+    <rect class="card" x="1260" y="215" width="160" height="80" rx="22"/><text class="card-label" x="1340" y="255">Build</text>
+    <rect class="card" x="1460" y="215" width="160" height="80" rx="22"/><text class="card-label" x="1540" y="255">Deploy</text>
+    <rect class="card" x="1660" y="215" width="240" height="80" rx="22"/><text class="small-label" x="1780" y="255">Smoke tests</text>
+  </g>
+  <g id="staging-close-gate" filter="url(#card-shadow)"><rect class="close-card" x="1940" y="210" width="180" height="90" rx="24"/><text class="card-label" x="2030" y="255">Close gate</text></g>
+
+  <g id="production-open-gate" filter="url(#card-shadow)"><rect class="open-card" x="1040" y="660" width="180" height="90" rx="24"/><text class="card-label" x="1130" y="705">Open gate</text></g>
+  <g id="production-work" filter="url(#card-shadow)">
+    <rect class="card" x="1260" y="665" width="160" height="80" rx="22"/><text class="card-label" x="1340" y="705">Build</text>
+    <rect class="card" x="1460" y="665" width="160" height="80" rx="22"/><text class="card-label" x="1540" y="705">Deploy</text>
+    <rect class="card" x="1660" y="665" width="240" height="80" rx="22"/><text class="small-label" x="1780" y="705">Smoke tests</text>
+  </g>
+  <g id="production-close-gate" filter="url(#card-shadow)"><rect class="close-card" x="1940" y="660" width="180" height="90" rx="24"/><text class="card-label" x="2030" y="705">Close gate</text></g>
+
+  <g id="integration-open-gate" filter="url(#card-shadow)"><rect class="open-card" x="2190" y="430" width="180" height="90" rx="24"/><text class="card-label" x="2280" y="475">Open gate</text></g>
+  <g id="integration-work" filter="url(#card-shadow)">
+    <rect class="card" x="2450" y="435" width="180" height="80" rx="22"/><text class="small-label" x="2540" y="475">Seed data</text>
+    <rect class="card" x="2670" y="305" width="180" height="80" rx="22"/><text class="small-label" x="2760" y="345">Test 1</text>
+    <rect class="card" x="2670" y="435" width="180" height="80" rx="22"/><text class="small-label" x="2760" y="475">Test 2</text>
+    <rect class="card" x="2670" y="565" width="180" height="80" rx="22"/><text class="small-label" x="2760" y="605">Test 3</text>
+    <rect class="card" x="2940" y="435" width="180" height="80" rx="22"/><text class="small-label" x="3030" y="475">Cleanup</text>
+  </g>
+  <g id="integration-close-gate" filter="url(#card-shadow)"><rect class="close-card" x="3190" y="430" width="180" height="90" rx="24"/><text class="card-label" x="3280" y="475">Close gate</text></g>
+
+  <g id="approval-open-gate" filter="url(#card-shadow)"><rect class="open-card" x="3420" y="430" width="180" height="90" rx="24"/><text class="card-label" x="3510" y="475">Open gate</text></g>
+  <g id="approval-work" filter="url(#card-shadow)">
+    <rect class="card" x="3660" y="435" width="150" height="80" rx="22"/><text class="small-label" x="3735" y="475">Approve</text>
+    <rect class="card" x="3850" y="435" width="140" height="80" rx="22"/><text class="small-label" x="3920" y="475">Notify</text>
+  </g>
+  <g id="approval-close-gate" filter="url(#card-shadow)"><rect class="close-card" x="4020" y="430" width="180" height="90" rx="24"/><text class="card-label" x="4110" y="475">Close gate</text></g>
+</svg>
