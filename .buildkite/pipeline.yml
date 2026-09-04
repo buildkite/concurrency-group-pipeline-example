@@ -1,139 +1,161 @@
 steps:
-  - command: echo "Running concurrency gate example"
+  - label: ":pipeline: Start"
+    command: echo "Running concurrency gate example"
     key: deploy-example
 
-  - label: ":large_green_square: OPEN GATE: Tests"
-    key: "start-tests"
-    concurrency_group: "tests"
-    command: echo "Opening Test gate"
+  - group: ":test_tube: Tests"
+    key: "tests-group"
+    depends_on: ["deploy-example"]
+    steps:
+      - label: ":large_green_square: Open `Tests` gate"
+        key: "tests-gate-open"
+        concurrency_group: "concurrency-group-example/tests"
+        concurrency: 1
+        command: echo "Opening Tests gate"
 
-  - wait
+      - label: ":lint-roller: Lint"
+        key: "lint"
+        command: echo "lint.sh"
+        depends_on: ["tests-gate-open"]
 
-  - command: echo "Waiting for Tests to start..."
-    key: "wait-start-tests"
+      - label: ":typescript: Typecheck"
+        key: "typecheck"
+        command: echo "typecheck.sh"
+        depends_on: ["tests-gate-open"]
 
-  - label: "Tests"
-    key: "tests"
-    concurrency_group: "tests"
-    parallelism: 5
-    depends_on: ["wait-start-tests"]
-    command: echo "run-tests.sh"
+      - label: ":rspec: Unit Tests"
+        key: "tests"
+        parallelism: 5
+        command: echo "run-tests.sh"
+        depends_on: ["tests-gate-open"]
 
-  - label: ":large_red_square: CLOSE GATE: Tests"
-    key: "end-tests"
-    concurrency_group: "tests"
-    command: echo "Closed the Test gate"
+      - label: ":large_red_square: Close `Tests` gate"
+        key: "tests-gate-close"
+        concurrency_group: "concurrency-group-example/tests"
+        concurrency: 1
+        command: echo "Closing Tests gate"
+        depends_on: ["lint", "typecheck", "tests"]
 
-  - wait
+  - group: ":rocket: Deploy to Staging"
+    key: "deploy-staging-group"
+    depends_on: ["tests-group"]
+    steps:
+      - label: ":large_green_square: Open `Deploy to Staging` gate"
+        key: "deploy-staging-gate-open"
+        concurrency_group: "concurrency-group-example/deploy-staging"
+        concurrency: 1
+        command: echo "Opening Deploy to Staging gate"
 
-  - command: echo "Waiting for Tests to end..."
-    key: "wait-end-tests"
+      - label: ":docker: Build Staging Artifact"
+        key: "build-staging-artifact"
+        command: echo "docker build -t app:staging ."
+        depends_on: ["deploy-staging-gate-open"]
 
-  - label: ":large_green_square: OPEN GATE: Deploy to Staging"
-    key: "start-deploy-staging"
-    concurrency_group: "deploy-staging"
-    depends_on: ["wait-end-tests"]
-    command: echo "Opening Deploy to Staging gate"
+      - label: ":kubernetes: Deploy to Staging"
+        key: "deploy-staging"
+        command: echo "deploy.sh staging"
+        depends_on: ["build-staging-artifact"]
 
-  - wait
+      - label: ":stethoscope: Staging Smoke Tests"
+        key: "staging-smoke-tests"
+        command: echo "smoke-tests.sh staging"
+        depends_on: ["deploy-staging"]
 
-  - command: echo "Waiting for Deploy to Staging to start..."
-    key: "wait-start-deploy-staging"
+      - label: ":large_red_square: Close `Deploy to Staging` gate"
+        key: "deploy-staging-gate-close"
+        concurrency_group: "concurrency-group-example/deploy-staging"
+        concurrency: 1
+        command: echo "Closing Deploy to Staging gate"
+        depends_on: ["staging-smoke-tests"]
 
-  - label: "Deploy to Staging"
-    key: "deploy-staging"
-    concurrency_group: "deploy-staging"
-    depends_on: ["wait-start-deploy-staging"]
-    command: echo "deploy.sh staging"
+  - group: ":rocket: Deploy to Production"
+    key: "deploy-production-group"
+    depends_on: ["tests-group"]
+    steps:
+      - label: ":large_green_square: Open `Deploy to Production` gate"
+        key: "deploy-production-gate-open"
+        concurrency_group: "concurrency-group-example/deploy-production"
+        concurrency: 1
+        command: echo "Opening Deploy to Production gate"
 
-  - label: ":large_red_square: CLOSE GATE: Deploy to Staging"
-    key: "end-deploy-staging"
-    concurrency_group: "deploy-staging"
-    command: echo "Closed Deploy to Staging gate"
+      - label: ":docker: Build Production Artifact"
+        key: "build-production-artifact"
+        command: echo "docker build -t app:production ."
+        depends_on: ["deploy-production-gate-open"]
 
-  - wait
+      - label: ":kubernetes: Deploy to Production"
+        key: "deploy-production"
+        command: echo "deploy.sh production"
+        depends_on: ["build-production-artifact"]
 
-  - command: echo "Waiting for Deploy to Staging to end..."
-    key: "wait-end-deploy-staging"
+      - label: ":stethoscope: Production Smoke Tests"
+        key: "production-smoke-tests"
+        command: echo "smoke-tests.sh production"
+        depends_on: ["deploy-production"]
 
-  - label: ":large_green_square: OPEN GATE: Deploy to Production"
-    key: "start-deploy-production"
-    concurrency_group: "deploy-production"
-    depends_on: ["wait-end-tests"]
-    command: echo "Closed Deploy to Production gate"
+      - label: ":large_red_square: Close `Deploy to Production` gate"
+        key: "deploy-production-gate-close"
+        concurrency_group: "concurrency-group-example/deploy-production"
+        concurrency: 1
+        command: echo "Closing Deploy to Production gate"
+        depends_on: ["production-smoke-tests"]
 
-  - wait
+  - group: ":mag: Integration Tests"
+    key: "integration-tests-group"
+    depends_on: ["deploy-staging-group", "deploy-production-group"]
+    steps:
+      - label: ":large_green_square: Open `Integration Tests` gate"
+        key: "integration-tests-gate-open"
+        concurrency_group: "concurrency-group-example/integration-tests"
+        concurrency: 1
+        command: echo "Opening Integration Tests gate"
 
-  - command: echo "Waiting for Deploy to Production to start..."
-    key: "wait-start-deploy-production"
+      - label: ":seedling: Seed Test Data"
+        key: "seed-test-data"
+        command: echo "seed-test-data.sh"
+        depends_on: ["integration-tests-gate-open"]
 
-  - label: "Deploy to Production"
-    key: "deploy-production"
-    concurrency_group: "deploy-production"
-    depends_on: ["wait-start-deploy-production"]
-    command: echo "deploy.sh production"
+      - label: ":test_tube: Integration Tests"
+        key: "integration-tests"
+        parallelism: 3
+        command: echo "integration-tests.sh"
+        depends_on: ["seed-test-data"]
 
-  - label: ":large_red_square: CLOSE GATE: Deploy to Production"
-    key: "end-deploy-production"
-    concurrency_group: "deploy-production"
-    command: echo "Closed Deploy to Production gate"
+      - label: ":broom: Cleanup Test Data"
+        key: "cleanup-test-data"
+        command: echo "cleanup-test-data.sh"
+        depends_on: ["integration-tests"]
 
-  - wait
+      - label: ":large_red_square: Close `Integration Tests` gate"
+        key: "integration-tests-gate-close"
+        concurrency_group: "concurrency-group-example/integration-tests"
+        concurrency: 1
+        command: echo "Closing Integration Tests gate"
+        depends_on: ["cleanup-test-data"]
 
-  - command: echo "Waiting for Deploy to Production to end..."
-    key: "wait-end-deploy-production"
+  - group: ":white_check_mark: Approve Deployment"
+    key: "approval-group"
+    depends_on: ["integration-tests-group"]
+    steps:
+      - label: ":large_green_square: Open `Approve Deployment` gate"
+        key: "approval-gate-open"
+        concurrency_group: "concurrency-group-example/approve-deployment"
+        concurrency: 1
+        command: echo "Opening Approve Deployment gate"
 
-  - label: ":large_green_square: OPEN GATE: Integration Tests"
-    key: "start-integration-tests"
-    concurrency_group: "integration-tests"
-    depends_on: ["wait-end-deploy-staging", "wait-end-deploy-production"]
-    command: echo "Closed Integration Tests gate"
+      - label: ":hand: Approve Deployment"
+        key: "approval"
+        command: echo "approve-deployment.sh"
+        depends_on: ["approval-gate-open"]
 
-  - wait
+      - label: ":mega: Notify Deployment Approved"
+        key: "notify-approval"
+        command: echo "notify-slack.sh 'Deployment approved'"
+        depends_on: ["approval"]
 
-  - command: echo "Waiting for Integration Tests to start..."
-    key: "wait-start-integration-tests"
-
-  - label: "Integration Tests"
-    key: "integration-tests"
-    concurrency_group: "integration-tests"
-    parallelism: 3
-    depends_on: ["wait-start-integration-tests"]
-    command: echo "integration-tests.sh"
-
-  - label: ":large_red_square: CLOSE GATE: Integration Tests"
-    key: "end-integration-tests"
-    concurrency_group: "integration-tests"
-    command: echo "Closed Integration Tests gate"
-
-  - wait
-
-  - command: echo "Waiting for Integration Tests to end..."
-    key: "wait-end-integration-tests"
- 
-  - label: ":large_green_square: OPEN GATE: Approve Deployment"
-    key: "start-approval"
-    concurrency_group: "approve-deployment"
-    depends_on: ["wait-end-integration-tests"]
-    command: echo "Opening Approve Deployment gate"
-
-  - wait
-
-  - command: echo "Waiting for Approve Deployment to start..."
-    key: "wait-start-approval"
-
-  - label: "Approve Deployment"
-    key: "approval"
-    concurrency_group: "approve-deployment"
-    depends_on: ["wait-start-approval"]
-    command: echo "approve-deployment.sh"
-
-  - label: ":large_red_square: CLOSE GATE: Approve Deployment"
-    key: "end-approval"
-    concurrency_group: "approve-deployment"
-    command: echo "Closed Approve Deployment gate"
-
-  - wait
-
-  - command: echo "Waiting for Approve Deployment to end..."
-    key: "wait-end-approval"
+      - label: ":large_red_square: Close `Approve Deployment` gate"
+        key: "approval-gate-close"
+        concurrency_group: "concurrency-group-example/approve-deployment"
+        concurrency: 1
+        command: echo "Closing Approve Deployment gate"
+        depends_on: ["notify-approval"]

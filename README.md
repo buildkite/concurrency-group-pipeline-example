@@ -23,11 +23,11 @@ This example models a simple gated workflow with concurrency limits and parallel
 
 ![Visual Description](.buildkite/concurrency-diagram.png)
 
-1. The **Running concurrency gate example** step prints a quick message to start the pipeline.
-2. The **Tests** step runs in parallel (up to 5 at once), controlled by a concurrency gate.
-3. When tests finish, the gates for **Deploy to Staging** and **Deploy to Production** open. These run independently.
-4. Once both deploy steps complete, **Integration Tests** run in parallel (up to 3 at once).
-5. After integration tests finish, the **Approve Deployment** step is triggered.
+1. The **Start** step prints a quick message to begin the pipeline.
+2. The **Tests** gate runs linting, type checking, and five unit-test jobs in parallel.
+3. When tests finish, the **Deploy to Staging** and **Deploy to Production** gates run independently. Each builds an artifact, deploys it, and runs smoke tests.
+4. Once both deployments complete, the **Integration Tests** gate seeds test data, runs three test jobs in parallel, and cleans up the data.
+5. The **Approve Deployment** gate runs the approval and notification steps.
 
 > 🔄 **Parallelism** runs multiple jobs at once.
 > ⛔ **Concurrency groups** limit how many jobs run at once — even across separate builds.
@@ -38,14 +38,14 @@ More on this in the [Buildkite docs on controlling concurrency](https://buildkit
 
 ## Pipeline Steps
 
-- **Running concurrency gate example**: Just prints a message to kick things off.
-- **Tests**: Runs up to 5 jobs in parallel, using the `tests` concurrency group.
-- **Deploy to Staging**: Waits for tests to finish. Uses the `deploy-staging` concurrency group.
-- **Deploy to Production**: Also waits for tests. Uses the `deploy-production` concurrency group.
-- **Integration Tests**: Waits for both deploy steps. Runs up to 3 jobs in parallel in the `integration-tests` group.
-- **Approve Deployment**: Waits for integration tests, and runs in the `approval` concurrency group.
+- **Start**: Prints a message to kick things off.
+- **Tests**: Runs linting, type checking, and up to five unit-test jobs inside the `concurrency-group-example/tests` gate.
+- **Deploy to Staging**: Waits for tests, then builds, deploys, and smoke-tests staging inside the `concurrency-group-example/deploy-staging` gate.
+- **Deploy to Production**: Also waits for tests, then builds, deploys, and smoke-tests production inside the `concurrency-group-example/deploy-production` gate.
+- **Integration Tests**: Waits for both deployments, then seeds data, runs up to three test jobs, and cleans up inside the `concurrency-group-example/integration-tests` gate.
+- **Approve Deployment**: Waits for integration tests, then approves and sends a notification inside the `concurrency-group-example/approve-deployment` gate.
 
-Each step uses `depends_on` and `concurrency_group` to manage gates and limits.
+Each gate uses two steps with the same namespaced `concurrency_group` and a `concurrency` limit of 1. The opening step lets a build enter the gate, while the closing step prevents a later build from entering until the work between them finishes. The steps inside a gate use `depends_on` and do not consume concurrency slots themselves.
 
 ## 🧠 Advanced Usage Notes
 
@@ -54,7 +54,9 @@ This setup mixes `depends_on` with concurrency groups to create gates between ph
 You can:
 - Gate steps across branches or fan-in/fan-out setups
 - Limit job execution globally (not just per pipeline)
-- Create human approval gates at the end of automated flows
+- Run parallel work while allowing only one build at a time through a gate
+
+> 💡 **Namespace concurrency groups.** Concurrency group names apply across the entire organization. Namespace them for the pipeline or shared resource they protect to avoid unintentionally limiting unrelated builds.
 
 Want help modeling a complex pipeline? [Reach out to support](https://buildkite.com/support) — we love this stuff.
 
