@@ -56,7 +56,7 @@ You can:
 - Limit job execution globally (not just per pipeline)
 - Run parallel work while allowing only one build at a time through a gate
 
-Concurrency group names apply across the entire Buildkite organization. Namespace them for the pipeline or shared resource they protect to avoid unintentionally limiting unrelated builds.
+> 💡 **Namespace concurrency groups.** Concurrency group names apply across the entire organization. Namespace them for the pipeline or shared resource they protect to avoid unintentionally limiting unrelated builds.
 
 Want help modeling a complex pipeline? [Reach out to support](https://buildkite.com/support) — we love this stuff.
 
